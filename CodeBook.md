@@ -20,17 +20,17 @@ The actual implementation after unzipping is as follows:
 6. Substitute the activity names for the activity IDs. This uses the mapping file "activity_labels.txt" content.
 7. Extract only variables that are the mean, mean(), standard devation, std(), the subject_id, or activity. This uses the grep function to pull out only the columns for mean and standard deviation. As stated in the source data "features_into.txt" file, the "mean()" and "std()" annotations represent the mean value and standard deviation respectively. There is also mention of "Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable" as noted in the"features_into.txt" file. These are just averages of the angle in the window, not the actual measurement, so they are omitted from the "tidyData.txt".
 
-'''R
+```R
 meanColumns <- grep("mean()",names(fullData),fixed=TRUE)
 stdColumns <- grep("std()",names(fullData),fixed=TRUE)
 subjIdColumn <- grep("subject_id",names(fullData),fixed=TRUE)
 actColumn <- grep("activity",names(fullData),fixed=TRUE)
 subData <- fullData[,c(meanColumns,stdColumns,subjIdColumn,actColumn)]
-'''
+```
 
 8. Sort the data and create a tidy data set with the average of each variable for each activity and each subject. This piece of code orders the data for the sake of readability, then creates an empty data.frame. It then goes through a set of nested for loops from 1 to 30 for each of the 30 subjects in the source data, 1 to 6 for the 6 different activities performed, and  1 to 66 for the 66 variables that contain mean or standard deviation data. For each of these 66 variables, tapply is ussed to to calculate the mean (average) where the subjec_id an activity are the same across the data set. These mean values are appended to a numeric vector called rowOfAvg. Finally, a tempFrame is created to construct something that will rbind correctly with the tidyData data.frame. Trying to just rbind a vector with the content would not work as all the content would be converted to character data, which is not desirable.
 
-'''R
+```R
 subData <- subData[order(subData$subject_id,subData$activity),]
 tidyData <- data.frame(stringsAsFactors=FALSE)
 for (i in 1:30) {
@@ -47,58 +47,58 @@ for (i in 1:30) {
             tidyData <- rbind(tidyData,tempFrame)
       }
 }
-'''
+```
 
 9. Add labels to tidyData. This takes the original source names and appends "-AvgOverSubjectAndActivity" to each mean and standard deviation variable to give a descriptive name of what the variables now represent. Note that if you read this data into a data.frame in R, you may have issues with some of the variable names if you do not encase them in quotes. E.g. tidyData$tBodyAcc-mean()-X-AvgOverSubjectAndActivity vs. tidyData$"tBodyAcc-mean()-X-AvgOverSubjectAndActivity"
 
-'''R
+```R
 names(tidyData) <- names(subData)
 for (i in 1:(length(names(tidyData))-2)) {
       names(tidyData)[i] <- paste(names(tidyData)[i],"-AvgOverSubjectAndActivity",sep="")
 }
 row.names(tidyData) <- NULL
-'''
+```
 
 10. Write out the tidyData to "tidyData.txt"
 
 # Code Book
 The following is from the "README.txt" and "features_info.txt" file from the source data, it gives some background on how the variables were created, but are not the variables in "tidyData.txt":
 
-*The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz.
+*The experiments have been carried out with a group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz.*
 
-The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.
+*The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain.*
 
-The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+*The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz.*
 
-Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+*Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).*
 
-Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+*Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals).*
 
-These signals were used to estimate variables of the feature vector for each pattern:  
-'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
+*These signals were used to estimate variables of the feature vector for each pattern:*
+*'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.*
 
-tBodyAcc-XYZ
-tGravityAcc-XYZ
-tBodyAccJerk-XYZ
-tBodyGyro-XYZ
-tBodyGyroJerk-XYZ
-tBodyAccMag
-tGravityAccMag
-tBodyAccJerkMag
-tBodyGyroMag
-tBodyGyroJerkMag
-fBodyAcc-XYZ
-fBodyAccJerk-XYZ
-fBodyGyro-XYZ
-fBodyAccMag
-fBodyAccJerkMag
-fBodyGyroMag
-fBodyGyroJerkMag
+*tBodyAcc-XYZ*
+*tGravityAcc-XYZ*
+**tBodyAccJerk-XYZ*
+*tBodyGyro-XYZ*
+*tBodyGyroJerk-XYZ*
+*tBodyAccMag*
+*tGravityAccMag*
+*tBodyAccJerkMag*
+*tBodyGyroMag*
+*tBodyGyroJerkMag*
+*fBodyAcc-XYZ*
+*fBodyAccJerk-XYZ*
+*fBodyGyro-XYZ*
+*fBodyAccMag*
+*fBodyAccJerkMag*
+*fBodyGyroMag*
+*fBodyGyroJerkMag*
 
-The set of variables that were estimated from these signals are: 
+*The set of variables that were estimated from these signals are: *
 
-mean(): Mean value
-std(): Standard deviation*
+*mean(): Mean value*
+*std(): Standard deviation*
 
 The actual variables included in "tidyData.txt" are averages subsetted by the subject id and activity performed and have "-AvgOverSubjectAndActivity" appended to them. The following is a list of all the variable names in "tidyData.txt" and their units:
 
