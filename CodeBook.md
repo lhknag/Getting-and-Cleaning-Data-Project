@@ -77,7 +77,7 @@ actColumn <- grep("activity",names(fullData),fixed=TRUE)
 subData <- fullData[,c(meanColumns,stdColumns,subjIdColumn,actColumn)]
 ```
 
-Sort the data and create a tidy data set with the average of each variable for each activity and each subject. This piece of code orders the data for the sake of readability, then creates an empty data.frame. It then goes through a set of nested for loops from 1 to 30 for each of the 30 subjects in the source data, 1 to 6 for the 6 different activities performed, and  1 to 66 for the 66 variables that contain mean or standard deviation data. For each of these 66 variables, tapply is ussed to to calculate the mean (average) where the subjec_id an activity are the same across the data set. These mean values are appended to a numeric vector called rowOfAvg. Finally, a tempFrame is created to construct something that will rbind correctly with the tidyData data.frame. Trying to just rbind a vector with the content would not work as all the content would be converted to character data, which is not desirable.
+Sort the data and create a tidy data set with the average of each variable for each activity and each subject. This piece of code orders the data for the sake of readability, then creates an empty data.frame. It then goes through a set of nested for loops from 1 to 30 for each of the 30 subjects in the source data, 1 to 6 for the 6 different activities performed, and  1 to 66 for the 66 variables that contain mean or standard deviation data. For each of these 66 variables, tapply is ussed to to calculate the mean (average) where the subject_id and activity are the same across the data set. These mean values are appended to a numeric vector called rowOfAvg. Finally, a tempFrame is created to construct something that will rbind correctly with the tidyData data.frame. Trying to just rbind a vector with the content would not work as all the content would be converted to character data, which is not desirable.
 
 ```R
 subData <- subData[order(subData$subject_id,subData$activity),]
@@ -148,147 +148,151 @@ The following is from the "README.txt" and "features_info.txt" file from the sou
 *fBodyGyroMag*
 *fBodyGyroJerkMag*
 
-*The set of variables that were estimated from these signals are: *
+*The set of variables that were estimated from these signals are:*
 
 *mean(): Mean value*
+
 *std(): Standard deviation*
+
+
 
 The actual variables included in "tidyData.txt" are averages subsetted by the subject id and activity performed and have "-AvgOverSubjectAndActivity" appended to them. The following is a list of all the variable names in "tidyData.txt" and their units:
 
  
-tBodyAcc-mean()-X-AvgOverSubjectAndActivity	   
+ 
+**tBodyAcc-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAcc-mean()-Y-AvgOverSubjectAndActivity	   
+**tBodyAcc-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAcc-mean()-Z-AvgOverSubjectAndActivity	   
+**tBodyAcc-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAcc-mean()-X-AvgOverSubjectAndActivity	   
+**tGravityAcc-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAcc-mean()-Y-AvgOverSubjectAndActivity	   
+**tGravityAcc-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAcc-mean()-Z-AvgOverSubjectAndActivity	   
+**tGravityAcc-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerk-mean()-X-AvgOverSubjectAndActivity	   
+**tBodyAccJerk-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerk-mean()-Y-AvgOverSubjectAndActivity	   
+**tBodyAccJerk-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerk-mean()-Z-AvgOverSubjectAndActivity	   
+**tBodyAccJerk-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyro-mean()-X-AvgOverSubjectAndActivity	   
+**tBodyGyro-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyro-mean()-Y-AvgOverSubjectAndActivity	   
+**tBodyGyro-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyro-mean()-Z-AvgOverSubjectAndActivity	   
+**tBodyGyro-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerk-mean()-X-AvgOverSubjectAndActivity	   
+**tBodyGyroJerk-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerk-mean()-Y-AvgOverSubjectAndActivity	   
+**tBodyGyroJerk-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerk-mean()-Z-AvgOverSubjectAndActivity	   
+**tBodyGyroJerk-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccMag-mean()-AvgOverSubjectAndActivity	   
+**tBodyAccMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAccMag-mean()-AvgOverSubjectAndActivity	   
+**tGravityAccMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerkMag-mean()-AvgOverSubjectAndActivity	   
+**tBodyAccJerkMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroMag-mean()-AvgOverSubjectAndActivity	   
+**tBodyGyroMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerkMag-mean()-AvgOverSubjectAndActivity	   
+**tBodyGyroJerkMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAcc-mean()-X-AvgOverSubjectAndActivity	   
+**fBodyAcc-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAcc-mean()-Y-AvgOverSubjectAndActivity	   
+**fBodyAcc-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAcc-mean()-Z-AvgOverSubjectAndActivity	   
+**fBodyAcc-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccJerk-mean()-X-AvgOverSubjectAndActivity	   
+**fBodyAccJerk-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccJerk-mean()-Y-AvgOverSubjectAndActivity	   
+**fBodyAccJerk-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccJerk-mean()-Z-AvgOverSubjectAndActivity	   
+**fBodyAccJerk-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyGyro-mean()-X-AvgOverSubjectAndActivity	   
+**fBodyGyro-mean()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyGyro-mean()-Y-AvgOverSubjectAndActivity	   
+**fBodyGyro-mean()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyGyro-mean()-Z-AvgOverSubjectAndActivity	   
+**fBodyGyro-mean()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccMag-mean()-AvgOverSubjectAndActivity	   
+**fBodyAccMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyBodyAccJerkMag-mean()-AvgOverSubjectAndActivity	   
+**fBodyBodyAccJerkMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyBodyGyroMag-mean()-AvgOverSubjectAndActivity	   
+**fBodyBodyGyroMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyBodyGyroJerkMag-mean()-AvgOverSubjectAndActivity	   
+**fBodyBodyGyroJerkMag-mean()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAcc-std()-X-AvgOverSubjectAndActivity	   
+**tBodyAcc-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAcc-std()-Y-AvgOverSubjectAndActivity	   
+**tBodyAcc-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAcc-std()-Z-AvgOverSubjectAndActivity	   
+**tBodyAcc-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAcc-std()-X-AvgOverSubjectAndActivity	   
+**tGravityAcc-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAcc-std()-Y-AvgOverSubjectAndActivity	   
+**tGravityAcc-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAcc-std()-Z-AvgOverSubjectAndActivity	   
+**tGravityAcc-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerk-std()-X-AvgOverSubjectAndActivity	   
+**tBodyAccJerk-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerk-std()-Y-AvgOverSubjectAndActivity	   
+**tBodyAccJerk-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerk-std()-Z-AvgOverSubjectAndActivity	   
+**tBodyAccJerk-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyro-std()-X-AvgOverSubjectAndActivity	   
+**tBodyGyro-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyro-std()-Y-AvgOverSubjectAndActivity	   
+**tBodyGyro-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyro-std()-Z-AvgOverSubjectAndActivity	   
+**tBodyGyro-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerk-std()-X-AvgOverSubjectAndActivity	   
+**tBodyGyroJerk-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerk-std()-Y-AvgOverSubjectAndActivity	   
+**tBodyGyroJerk-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerk-std()-Z-AvgOverSubjectAndActivity	   
+**tBodyGyroJerk-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccMag-std()-AvgOverSubjectAndActivity	   
+**tBodyAccMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tGravityAccMag-std()-AvgOverSubjectAndActivity	   
+**tGravityAccMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyAccJerkMag-std()-AvgOverSubjectAndActivity	   
+**tBodyAccJerkMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroMag-std()-AvgOverSubjectAndActivity	   
+**tBodyGyroMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-tBodyGyroJerkMag-std()-AvgOverSubjectAndActivity	   
+**tBodyGyroJerkMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAcc-std()-X-AvgOverSubjectAndActivity	   
+**fBodyAcc-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAcc-std()-Y-AvgOverSubjectAndActivity	   
+**fBodyAcc-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAcc-std()-Z-AvgOverSubjectAndActivity	   
+**fBodyAcc-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccJerk-std()-X-AvgOverSubjectAndActivity	   
+**fBodyAccJerk-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccJerk-std()-Y-AvgOverSubjectAndActivity	   
+**fBodyAccJerk-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccJerk-std()-Z-AvgOverSubjectAndActivity	   
+**fBodyAccJerk-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyGyro-std()-X-AvgOverSubjectAndActivity	   
+**fBodyGyro-std()-X-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyGyro-std()-Y-AvgOverSubjectAndActivity	   
+**fBodyGyro-std()-Y-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyGyro-std()-Z-AvgOverSubjectAndActivity	   
+**fBodyGyro-std()-Z-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyAccMag-std()-AvgOverSubjectAndActivity	   
+**fBodyAccMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyBodyAccJerkMag-std()-AvgOverSubjectAndActivity	   
+**fBodyBodyAccJerkMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyBodyGyroMag-std()-AvgOverSubjectAndActivity	   
+**fBodyBodyGyroMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-fBodyBodyGyroJerkMag-std()-AvgOverSubjectAndActivity	   
+**fBodyBodyGyroJerkMag-std()-AvgOverSubjectAndActivity**	   
     Units: standard gravity units 'g'	   
-subject_id	   
+**subject_id**	   
     Units: N/A, ID of the 1 to 30 participants	   
-activity	   
+**activity**	   
     Units: Enumeration = WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING	 
